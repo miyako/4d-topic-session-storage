@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-sm bg-body-tertiary">
+      <div class="container-fluid">
+        <span class="navbar-brand">4D</span>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+            <li class="nav-item">
+            </li>
+          </ul>
+            <input class="form-control me-2 my-input" placeholder="てきとうな文字列" aria-label="value" value="">
+            <button class="btn btn-outline-success my-submit">Run</button>
+        </div>
+      </div>
+    </nav>
+    <div id="my-list"><div>
+    <script>
+        var myList;
+        var myQuery;
+        function teststogage(value){
+            fetch('/teststogage/' + encodeURIComponent(value))
+            .then(response => response.json())
+            .then(data => {
+                showdata(data.values);
+            });
+            }
+        function showdata(data){
+            myList.innerHTML = '';
+                        
+            const table = document.createElement("table");
+            table.classList.add("table", "table-striped-columns");
+            const thead = document.createElement("thead");
+            const tr = document.createElement("tr");
+            const th1 = document.createElement("th");
+            const th2 = document.createElement("th");
+            const tbody = document.createElement("tbody");
+    
+            th1.textContent = "value";
+            th2.textContent = "time";
+            tr.appendChild(th1);
+            tr.appendChild(th2);
+            thead.appendChild(tr);
+            table.appendChild(thead);
+
+            data.forEach((item, index) => {
+                const tr = document.createElement("tr");
+                const td1 = document.createElement("td");
+                const td2 = document.createElement("td");
+                td1.textContent = item.value;
+                td2.textContent = item.time;
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tbody.appendChild(tr);
+            });
+            
+            table.appendChild(tbody);
+            myList.appendChild(table);
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            myList = document.querySelector('#my-list');
+            myInput = document.querySelector('.my-input');
+            myInput.addEventListener('change', function (event) {
+                teststogage(event.target.value);
+            });
+            myInput.focus();
+            mySubmit = document.querySelector('.my-submit');
+            mySubmit.addEventListener('click', function (event) {
+                teststogage(myInput.value);
+            });
+        });
+    </script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
